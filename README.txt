@@ -1,1 +1,1 @@
---- jfakecam ---
+--- pyfakewebcam ---

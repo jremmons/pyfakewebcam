@@ -9,12 +9,12 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name = "jfakecam",
+    name = "pyfakewebcam",
     version = "0.0.1",
     author = "John Emmons",
     author_email = "jemmons@cs.stanford.edu",
     long_description=read('README.txt'),
-    packages=['jfakecam',],
+    packages=['pyfakewebcam',],
     install_requires = [
     ]
 )
