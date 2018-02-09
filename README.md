@@ -14,15 +14,23 @@ python setup.py install
 ```
 # python 
 pip install numpy
-apt-get install python-opencv
 
 # linux
 apt-get install v4l2loopback-utils
+
+# linux (optional)
+apt-get install python-opencv # provides a big performance improvement if installed
+apt-get install ffmpeg
 ```
 
 ## performance
 
-One 
+When I run the `examples/example.py` script on an Intel i7-3520M (2.9
+GHz, turbos to 3.6 GHz), the time to schedule a single frame is **~2.5
+milliseconds** (with opencv installed). You can use this library
+without installing opencv, but it is about 10x slower; time to
+schedule a frame without opencv is **~25 milliseconds** (RGB to YUV
+conversion done with numpy operations).
 
 ## usage 
 

@@ -1,11 +1,18 @@
-import cv2
 import os
 import sys
 import fcntl
 import timeit
+import sys
 
 import numpy as np
 import pyfakewebcam.v4l2 as _v4l2
+
+cv2_imported = True
+try:
+    import cv2
+except:
+    sys.stderr.write('Warning! opencv could not be imported; performace will be degraded!\n')
+    cv2_imported = False
 
 class FakeWebcam:
 
@@ -37,6 +44,12 @@ class FakeWebcam:
         self._settings.fmt.pix.colorspace = _v4l2.V4L2_COLORSPACE_JPEG
 
         self._buffer = np.zeros((self._settings.fmt.pix.height, 2*self._settings.fmt.pix.width), dtype=np.uint8)
+
+        self._yuv = np.zeros((self._settings.fmt.pix.height, self._settings.fmt.pix.width, 3), dtype=np.uint8)
+        self._ones = np.ones((self._settings.fmt.pix.height, self._settings.fmt.pix.width, 1), dtype=np.uint8)
+        self._rgb2yuv = np.array([[0.299, 0.587, 0.114, 0],
+                                  [-0.168736, -0.331264, 0.5, 128],
+                                  [0.5, -0.418688, -0.081312, 128]])
         
         fcntl.ioctl(self._video_device, _v4l2.VIDIOC_S_FMT, self._settings)
 
@@ -58,17 +71,25 @@ class FakeWebcam:
         if frame.shape[2] != self._channels:
             raise Exception('num frame channels does not match the num channels of webcam device: {}!={}\n'.format(self._channels, frame.shape[2]))
 
-        # t1 = timeit.default_timer()
-        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2YUV)
-        # t2 = timeit.default_timer()
-        # sys.stderr.write('conversion time: {}\n'.format(t2-t1))        
-
+        if cv2_imported:
+            # t1 = timeit.default_timer()
+            self._yuv = cv2.cvtColor(frame, cv2.COLOR_RGB2YUV)
+            # t2 = timeit.default_timer()
+            # sys.stderr.write('conversion time: {}\n'.format(t2-t1))                    
+        else:
+            # t1 = timeit.default_timer()
+            frame = np.concatenate((frame, self._ones), axis=2)
+            frame = np.dot(frame, self._rgb2yuv.T)
+            self._yuv[:,:,:] = np.clip(frame, 0, 255)
+            # t2 = timeit.default_timer()
+            # sys.stderr.write('conversion time: {}\n'.format(t2-t1))                    
+            
         # t1 = timeit.default_timer()
         for i in range(self._settings.fmt.pix.height):
-            self._buffer[i,::2] = frame[i,:,0]
-            self._buffer[i,1::4] = frame[i,::2,1]
-            self._buffer[i,3::4] = frame[i,::2,2]                
+            self._buffer[i,::2] = self._yuv[i,:,0]
+            self._buffer[i,1::4] = self._yuv[i,::2,1]
+            self._buffer[i,3::4] = self._yuv[i,::2,2]                
         # t2 = timeit.default_timer()
         # sys.stderr.write('pack time: {}\n'.format(t2-t1))
-
+            
         os.write(self._video_device, self._buffer.tostring())
