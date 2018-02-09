@@ -7,12 +7,12 @@ import sys
 import numpy as np
 import pyfakewebcam.v4l2 as _v4l2
 
-cv2_imported = True
+cv2_imported = False
 try:
     import cv2
+    cv2_imported = True
 except:
     sys.stderr.write('Warning! opencv could not be imported; performace will be degraded!\n')
-    cv2_imported = False
 
 class FakeWebcam:
 
