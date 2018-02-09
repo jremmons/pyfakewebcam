@@ -7,5 +7,6 @@ setup(
     author_email = "jemmons@cs.stanford.edu",
     packages=['pyfakewebcam',],
     install_requires = [
+        'numpy'
     ]
 )
