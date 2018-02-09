@@ -13,7 +13,7 @@ camera = pyfakewebcam.FakeWebcam('/dev/video1', 640, 480)
 while True:
 
     camera.schedule_frame(red)
-    time.sleep(1/1)
+    time.sleep(1/30)
 
     camera.schedule_frame(blue)
-    time.sleep(1/1)
+    time.sleep(1/30)
