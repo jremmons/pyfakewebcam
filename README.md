@@ -29,9 +29,9 @@ apt-get install ffmpeg # useful for debugging
 ## performance
 
 When I run the `examples/example.py` script on an Intel i7-3520M (2.9
-GHz, turbos to 3.6 GHz), the time to schedule a single frame is *~2.5
+GHz, turbos to 3.6 GHz), the time to schedule a single frame is *~3
 milliseconds* (with opencv installed). **You can use this library
-without installing opencv**, but it is about 10x slower; time to
+without installing opencv**, but it is almost 10x slower; time to
 schedule a frame without opencv is *~26 milliseconds* (RGB to YUV
 conversion done with numpy operations).
 
