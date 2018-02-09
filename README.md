@@ -7,10 +7,32 @@ An API for writing RGB frames to a fake webcam device on Linux!
 ```
 git clone https://github.com/jremmons/pyfakewebcam.git
 cd pyfakewebcam
-sudo python setup.py install
+python setup.py install
 ```
- 
+
+## dependencies
+```
+# python 
+pip install numpy
+apt-get install python-opencv
+
+# linux
+apt-get install v4l2loopback-utils
+```
+
+## performance
+
+One 
+
 ## usage 
+
+Insert the v4l2loopback kernel module.
+
+```
+modprobe v4l2loopback devices=1
+```
+
+Example code.
 
 ```python
 # see red_blue.py in the examples dir
