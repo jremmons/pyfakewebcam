@@ -2,6 +2,9 @@
 
 An API for writing RGB frames to a fake webcam device on Linux!
 
+**Author:** John Emmons
+**Email:** mail@johnemmons.com
+
 ## installation
 
 ```
@@ -19,18 +22,22 @@ pip install numpy
 apt-get install v4l2loopback-utils
 
 # linux (optional)
-apt-get install python-opencv # provides a big performance improvement if installed
-apt-get install ffmpeg
+apt-get install python-opencv # 10x performance improvement if installed (see below)
+apt-get install ffmpeg # useful for debugging
 ```
 
 ## performance
 
 When I run the `examples/example.py` script on an Intel i7-3520M (2.9
 GHz, turbos to 3.6 GHz), the time to schedule a single frame is **~2.5
-milliseconds** (with opencv installed). You can use this library
-without installing opencv, but it is about 10x slower; time to
-schedule a frame without opencv is **~25 milliseconds** (RGB to YUV
+milliseconds** (with opencv installed). *You can use this library
+without installing opencv*, but it is about 10x slower; time to
+schedule a frame without opencv is **~26 milliseconds** (RGB to YUV
 conversion done with numpy operations).
+
+If your goal is to run at 30Hz (or slower) and ~25 milliseconds of
+delay is acceptable in your application, then opencv may not be
+necessary. 
 
 ## usage 
 
@@ -59,10 +66,10 @@ camera = pyfakewebcam.FakeWebcam('/dev/video1', 640, 480)
 while True:
 
     camera.schedule_frame(red)
-    time.sleep(1/1)
+    time.sleep(1/30)
 
     camera.schedule_frame(blue)
-    time.sleep(1/1)
+    time.sleep(1/30)
 ```
 
 Run the following command to see the output of the fake webcam.
