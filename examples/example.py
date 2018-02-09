@@ -4,12 +4,12 @@ import numpy as np
 import time
 import timeit
 
-cam = pyfakewebcam.FakeWebcam('/dev/video1', 640, 480)
+cam = pyfakewebcam.FakeWebcam('/dev/video1', 640, 512)
 
 cam.print_capabilities()
 
 im0 = misc.imread("doge1.jpg")
-im1 = np.zeros((480,640,3), dtype=np.uint8)
+im1 = np.zeros((512,640,3), dtype=np.uint8)
 
 while True:
 
