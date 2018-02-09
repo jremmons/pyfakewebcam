@@ -2,6 +2,8 @@
 
 An API for writing RGB frames to a fake webcam device on Linux!
 
+**Compatible with Python2.7 and Python3.x**    
+
 **Author:** John Emmons  
 **Email:** mail@johnemmons.com
 
