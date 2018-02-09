@@ -2,7 +2,7 @@
 
 An API for writing RGB frames to a fake webcam device on Linux!
 
-**Author:** John Emmons
+**Author:** John Emmons  
 **Email:** mail@johnemmons.com
 
 ## installation
