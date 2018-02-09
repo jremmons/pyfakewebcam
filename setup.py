@@ -2,9 +2,9 @@ from setuptools import setup
 
 setup(
     name = "pyfakewebcam",
-    version = "0.0.1",
+    version = "0.0.2",
     author = "John Emmons",
-    author_email = "jemmons@cs.stanford.edu",
+    author_email = "mail@johnemmons.com",
     url='https://github.com/jremmons/pyfakewebcam', 
     license='GPLv3',
     packages=['pyfakewebcam',],
