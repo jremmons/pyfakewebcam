@@ -7,7 +7,7 @@ An API for writing RGB frames to a fake webcam device on Linux!
 ```
 git clone https://github.com/jremmons/pyfakewebcam.git
 cd pyfakewebcam
-python setup.py install
+sudo python setup.py install
 ```
  
 ## usage 
