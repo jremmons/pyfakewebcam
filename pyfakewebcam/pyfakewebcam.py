@@ -17,6 +17,8 @@ except:
 class FakeWebcam:
 
     
+    # TODO: add support for more pixfmts
+    # TODO: add support for grayscale
     def __init__(self, video_device, width, height, channels=3, input_pixfmt='RGB'):
         
         if channels != 3:
@@ -62,8 +64,10 @@ class FakeWebcam:
         print(("v4l2 driver: {}".format(capability.driver)))
         
 
+    # TODO: improve the conversion from RGB to YUV using cython when opencv is not available
     def schedule_frame(self, frame):
 
+        
         if frame.shape[0] != self._settings.fmt.pix.height:
             raise Exception('frame height does not match the height of webcam device: {}!={}\n'.format(self._settings.fmt.pix.height, frame.shape[0]))
         if frame.shape[1] != self._settings.fmt.pix.width:
@@ -93,3 +97,4 @@ class FakeWebcam:
         # sys.stderr.write('pack time: {}\n'.format(t2-t1))
             
         os.write(self._video_device, self._buffer.tostring())
+
