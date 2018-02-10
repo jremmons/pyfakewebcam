@@ -1,5 +1,7 @@
-import ctypes
+# This code was taken from the seemingly defunct pypi package https://pypi.python.org/pypi/v4l2
+# Minor changes were made to enable the code to work with python3.x (was originally written for python2.7)
 
+import ctypes
 
 _IOC_NRBITS = 8
 _IOC_TYPEBITS = 8
