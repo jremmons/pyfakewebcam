@@ -1,15 +1,16 @@
 import pyfakewebcam
-import scipy.misc as misc
 import numpy as np
 import time
 import timeit
 
-cam = pyfakewebcam.FakeWebcam('/dev/video1', 640, 512)
+from PIL import Image
+
+cam = pyfakewebcam.FakeWebcam('/dev/video1', 1280, 720)
 
 cam.print_capabilities()
 
-im0 = misc.imread("doge1.jpg")
-im1 = np.zeros((512,640,3), dtype=np.uint8)
+im0 = np.array( Image.open("doge1.jpg") )
+im1 = np.zeros((720,1280,3), dtype=np.uint8)
 
 while True:
 
