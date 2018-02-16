@@ -2,13 +2,13 @@ import time
 import pyfakewebcam
 import numpy as np
 
-blue = np.zeros((480,640,3), dtype=np.uint8)
+blue = np.zeros((720,1280,3), dtype=np.uint8)
 blue[:,:,2] = 255
 
-red = np.zeros((480,640,3), dtype=np.uint8)
+red = np.zeros((720,1280,3), dtype=np.uint8)
 red[:,:,0] = 255
 
-camera = pyfakewebcam.FakeWebcam('/dev/video1', 640, 480)
+camera = pyfakewebcam.FakeWebcam('/dev/video1', 1280, 720)
 
 while True:
 
