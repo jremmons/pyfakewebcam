@@ -37,7 +37,7 @@ apt-get install ffmpeg # useful for debugging
 When I run the `examples/example.py` script (640x360 resolution) 
 on an Intel i7-3520M (2.9GHz, turbos to 3.6 GHz), the time to 
 schedule a single frame is *~3 milliseconds* (with opencv 
-installed). **You can use this library ithout installing opencv**, 
+installed). **You can use this library without installing opencv**, 
 but it is almost 10x slower; time to schedule a frame without 
 opencv is *~26 milliseconds* (RGB to YUV conversion done with 
 numpy operations).
