@@ -46,6 +46,9 @@ If your goal is to run at 30Hz (or slower) and ~26 milliseconds of
 delay is acceptable in your application, then opencv may not be
 necessary. 
 
+For YUV input, the delay should be trivial since no calculation 
+is done.
+
 ## usage 
 
 Insert the v4l2loopback kernel module.
@@ -54,7 +57,7 @@ Insert the v4l2loopback kernel module.
 modprobe v4l2loopback devices=2 # will create two fake webcam devices
 ```
 
-Example code.
+Example RGB code.
 
 ```python
 # see red_blue.py in the examples dir
@@ -83,3 +86,5 @@ Run the following command to see the output of the fake webcam.
 ```
 ffplay /dev/video1
 ```
+
+Example YUV in '/examples/raw_yuv.py'
