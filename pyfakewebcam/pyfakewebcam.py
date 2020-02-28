@@ -2,6 +2,7 @@ import os
 import sys
 import fcntl
 import timeit
+import time
 import sys
 
 import numpy as np
@@ -16,7 +17,6 @@ except:
 
 class FakeWebcam:
 
-    
     # TODO: add support for more pixfmts
     # TODO: add support for grayscale
     def __init__(self, video_device, width, height, channels=3, input_pixfmt='RGB'):
@@ -24,8 +24,8 @@ class FakeWebcam:
         if channels != 3:
             raise NotImplementedError('Code only supports inputs with 3 channels right now. You tried to intialize with {} channels'.format(channels))
 
-        if input_pixfmt != 'RGB':
-            raise NotImplementedError('Code only supports RGB pixfmt. You tried to intialize with {}'.format(input_pixfmt))
+        if input_pixfmt != 'RGB' and input_pixfmt != 'YUV420':
+            raise NotImplementedError('Code only supports RGB and YUV420 pixfmt. You tried to intialize with {}'.format(input_pixfmt))
         
         if not os.path.exists(video_device):
             sys.stderr.write('\n--- Make sure the v4l2loopback kernel module is loaded ---\n')
@@ -66,7 +66,6 @@ class FakeWebcam:
 
     # TODO: improve the conversion from RGB to YUV using cython when opencv is not available
     def schedule_frame(self, frame):
-
         
         if frame.shape[0] != self._settings.fmt.pix.height:
             raise Exception('frame height does not match the height of webcam device: {}!={}\n'.format(self._settings.fmt.pix.height, frame.shape[0]))
@@ -98,3 +97,53 @@ class FakeWebcam:
             
         os.write(self._video_device, self._buffer.tostring())
 
+
+    def schedule_yuv(self, filename, fps):
+
+        capture = VideoCaptureYUV(filename, self._settings.fmt.pix.width, self._settings.fmt.pix.height)
+        
+        while 1:
+            
+            yuv = capture.read_raw()
+            
+            if len(yuv):
+                
+                y, u, v = capture.to_channel(yuv)
+                
+                for i in range(self._settings.fmt.pix.height):
+                    self._buffer[i,::2] = y[i]
+                    self._buffer[i,1::4] = u[i // 2]
+                    self._buffer[i,3::4] = v[i // 2]
+                os.write(self._video_device, self._buffer.tostring())
+
+                time.sleep(1/fps)
+            else:
+
+                break
+
+
+class VideoCaptureYUV:
+    
+    def __init__(self, filename, width, height):
+
+        self.height, self.width = height, width
+        self.frame_size = self.height * self.width
+        self.frame_len = self.width * self.height * 3 // 2
+        self.f = open(filename, 'rb')
+
+    def read_raw(self):
+
+        raw = self.f.read(self.frame_size * 3 // 2) # Assuming YUV420
+        yuv = np.frombuffer(raw, dtype=np.uint8)
+        
+        return yuv
+
+    def to_channel(self, yuv):
+
+        y = yuv[:self.frame_size].reshape(self.height, self.width)
+        u = yuv[self.frame_size: self.frame_size + self.frame_size // 4].\
+            reshape(self.height // 2, self.width // 2)
+        v = yuv[self.frame_size + self.frame_size // 4: ].\
+            reshape(self.height // 2, self.width // 2)
+
+        return y, u, v
