@@ -2,10 +2,14 @@
 
 An API for writing RGB frames to a fake webcam device on Linux!
 
-**Compatible with Python2.7 and Python3.x**    
+**Compatible with Python2.7 and Python3.x**
 
-**Author:** John Emmons  
+**Author:** John Emmons
 **Email:** mail@johnemmons.com
+
+**Disclaimer:** I wrote this project when I was a university
+student. I now employed full time so I don't have time to keep things
+update or add new features :(. Please feel free to fork!
 
 ## installation
 
@@ -21,7 +25,7 @@ python setup.py install
 
 ## dependencies
 ```
-# python 
+# python
 pip install numpy
 
 # linux
@@ -34,19 +38,19 @@ apt-get install ffmpeg # useful for debugging
 
 ## performance
 
-When I run the `examples/example.py` script (640x360 resolution) 
-on an Intel i7-3520M (2.9GHz, turbos to 3.6 GHz), the time to 
-schedule a single frame is *~3 milliseconds* (with opencv 
-installed). **You can use this library without installing opencv**, 
-but it is almost 10x slower; time to schedule a frame without 
-opencv is *~26 milliseconds* (RGB to YUV conversion done with 
+When I run the `examples/example.py` script (640x360 resolution)
+on an Intel i7-3520M (2.9GHz, turbos to 3.6 GHz), the time to
+schedule a single frame is *~3 milliseconds* (with opencv
+installed). **You can use this library without installing opencv**,
+but it is almost 10x slower; time to schedule a frame without
+opencv is *~26 milliseconds* (RGB to YUV conversion done with
 numpy operations).
 
 If your goal is to run at 30Hz (or slower) and ~26 milliseconds of
 delay is acceptable in your application, then opencv may not be
-necessary. 
+necessary.
 
-## usage 
+## usage
 
 Insert the v4l2loopback kernel module.
 
