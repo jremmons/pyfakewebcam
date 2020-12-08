@@ -1,3 +1,9 @@
+# vscode
+.vscode/
+
+# images
+image.jpeg
+image*.jpg
 
 # virtualenv
 venv
