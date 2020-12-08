@@ -8,7 +8,7 @@ blue[:,:,2] = 255
 red = np.zeros((720,1280,3), dtype=np.uint8)
 red[:,:,0] = 255
 
-camera = pyfakewebcam.FakeWebcam('/dev/video1', 1280, 720)
+camera = pyfakewebcam.FakeWebcam('/dev/video2', 1280, 720)
 
 while True:
 
