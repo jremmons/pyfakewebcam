@@ -6,7 +6,7 @@ setup(
     author = "John Emmons",
     author_email = "mail@johnemmons.com",
     url='https://github.com/jremmons/pyfakewebcam', 
-    license='GPLv3',
+    license='LGPLv3',
     packages=['pyfakewebcam',],
     install_requires = [
         'numpy'
